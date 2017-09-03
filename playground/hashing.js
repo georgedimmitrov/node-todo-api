@@ -1,5 +1,6 @@
 const { SHA256 } = require('crypto-js');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // hashing + salt + man in the middle attack example
 // const message = 'i am user number 3';
@@ -33,7 +34,25 @@ const data = {
   id: 10
 };
 
-const token = jwt.sign(data, '123abc');
-console.log('token', token);
-const decoded = jwt.verify(token, '123abc');
-console.log('decoded', decoded);
+// const token = jwt.sign(data, '123abc');
+// console.log('token', token);
+// const decoded = jwt.verify(token, '123abc');
+// console.log('decoded', decoded);
+
+
+const password = '123abc!';
+// unhashed -->  hashed
+// 'password1' -> 'mmnn' // password without salt
+// 'password1898989' -> '..' // password with salt
+
+// bcrypt.genSalt(10, (err, salt) => {
+//   bcrypt.hash(password, salt, (err, hashedValue) => {
+//     console.log(hashedValue);
+//   });
+// });
+
+const hashedPassword = '$2a$10$k7tSKomo6n2HeAS5woVQ3u2ZAaGdbBYbQmANW.w1GhlcEkK1Jk/Xe';
+
+bcrypt.compare(password, hashedPassword, (err, res) => {
+  console.log(res);
+});
